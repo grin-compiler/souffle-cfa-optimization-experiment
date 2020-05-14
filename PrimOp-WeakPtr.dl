@@ -24,7 +24,6 @@ CallPNode1(r, "mkWeak#-finalizer-ignored-result", finalizer, v3_state), // TRICK
 WeakFinalizer(r, finalizer),
 WeakPtr(r, ty_node, item) :-
   op = "mkWeak#",
-  REACHABLE(r)
   Call(r, op, _),
   // value
   CallArgument(r, 1, item),
@@ -33,7 +32,9 @@ WeakPtr(r, ty_node, item) :-
   // state
   CallArgument(r, 3, v3_state),
   // extract result node
-  RetTup1Node0(op, ty_node).
+  RetTup1Node0(op, ty_node),
+  NEW_REACHABLE(r)
+  .
   // CHECKED
 
 // "mkWeakNoFinalizer#" :: %o -> %b -> {"State#" {RealWorld}} -> {"GHC.Prim.Unit#" {"Weak#" %b}}
@@ -42,12 +43,13 @@ USED("PrimOp-WeakPtr-02")
 Called(r, op),
 WeakPtr(r, ty_node, item) :-
   op = "mkWeakNoFinalizer#",
-  REACHABLE(r)
   Call(r, op, _),
   // value
   CallArgument(r, 1, item),
   // extract result node
-  RetTup1Node0(op, ty_node).
+  RetTup1Node0(op, ty_node),
+  NEW_REACHABLE(r)
+  .
   // CHECKED
 
 // "deRefWeak#" :: {"Weak#" %a} -> {"State#" {RealWorld}} -> {"GHC.Prim.(#,#)" T_Int64 %a}
@@ -55,14 +57,15 @@ USED("PrimOp-WeakPtr-03")
 Called(r, op),
 TypeVarPointsTo(r, ty_node, item) :-
   op = "deRefWeak#",
-  REACHABLE(r)
   Call(r, op, _),
   // lookup weak ptr items
   CallArgument(r, 0, arr),
   ExternalOrigin(arr, ext_result, arr_node),
   WeakPtr(ext_result, arr_node, item),
   // lookup result node
-  RetTup(op, "GHC.Prim.(#,#)", 1, ty_node).
+  RetTup(op, "GHC.Prim.(#,#)", 1, ty_node),
+  NEW_REACHABLE(r)
+  .
   // CHECKED
 
 // "finalizeWeak#"  :: {"Weak#" %a}
@@ -72,12 +75,13 @@ USED("PrimOp-WeakPtr-04")
 Called(r, op),
 TypeVarPointsTo(r, ty_node, finalizer) :-
   op = "finalizeWeak#",
-  REACHABLE(r)
   Call(r, op, _),
   // lookup weak ptr items
   CallArgument(r, 0, arr),
   ExternalOrigin(arr, ext_result, _),
   WeakFinalizer(ext_result, finalizer),
   // lookup result node
-  RetTup(op, "GHC.Prim.(#,#)", 1, ty_node).
+  RetTup(op, "GHC.Prim.(#,#)", 1, ty_node),
+  NEW_REACHABLE(r)
+  .
   // CHECKED

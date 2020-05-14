@@ -23,12 +23,13 @@ USED("PrimOp-MutVar-01")
 Called(r, op),
 MutVar(r, ty_node, item) :-
   op = "newMutVar#",
-  REACHABLE(r)
   Call(r, op, _),
   // initial item
   CallArgument(r, 0, item),
   // extract result node
-  RetTup1Node0(op, ty_node).
+  RetTup1Node0(op, ty_node),
+  NEW_REACHABLE(r)
+  .
   // CHECKED
 
 // "readMutVar#" :: {"MutVar#" %s %a} -> {"State#" %s} -> {"GHC.Prim.Unit#" %a}
@@ -36,14 +37,15 @@ USED("PrimOp-MutVar-02")
 Called(r, op),
 TypeVarPointsTo(r, ty_node, item) :-
   op = "readMutVar#",
-  REACHABLE(r)
   Call(r, op, _),
   // lookup mut var items
   CallArgument(r, 0, arr),
   ExternalOrigin(arr, ext_result, arr_node),
   MutVar(ext_result, arr_node, item),
   // lookup result node
-  RetTup1Node0(op, ty_node).
+  RetTup1Node0(op, ty_node),
+  NEW_REACHABLE(r)
+  .
   // CHECKED
 
 // "writeMutVar#" :: {"MutVar#" %s %a} -> %a -> {"State#" %s} -> {"GHC.Prim.(##)"}
@@ -52,7 +54,6 @@ USED("PrimOp-MutVar-03")
 Called(r, op),
 MutVar(ext_result, ty_node, item) :-
   op = "writeMutVar#",
-  REACHABLE(r)
   Call(r, op, _),
   // item to write
   CallArgument(r, 1, item),
@@ -60,7 +61,9 @@ MutVar(ext_result, ty_node, item) :-
   CallArgument(r, 0, arr),
   ExternalOrigin(arr, ext_result, ty_node),
   // validation
-  MutVar(ext_result, ty_node, _).
+  MutVar(ext_result, ty_node, _),
+  NEW_REACHABLE(r)
+  .
   // CHECKED
 
 // "atomicModifyMutVar#" :: {"MutVar#" %s %a} -> (%a -> %b) -> {"State#" %s} -> {"GHC.Prim.Unit#" %c}
@@ -78,7 +81,6 @@ TypeVarPointsTo(r, ty_node, new_item),
 TypeVarPointsTo(r, ty_node, item),
 MutVar(ext_result, arr_node, new_item) :-
   op = "casMutVar#",
-  REACHABLE(r)
   Call(r, op, _),
   // new item
   CallArgument(r, 2, new_item),
@@ -88,5 +90,7 @@ MutVar(ext_result, arr_node, new_item) :-
   // mut var items
   MutVar(ext_result, arr_node, item),
   // extract result node
-  RetTup(op, "GHC.Prim.(#,#)", 1, ty_node).
+  RetTup(op, "GHC.Prim.(#,#)", 1, ty_node),
+  NEW_REACHABLE(r)
+  .
   // CHECKED

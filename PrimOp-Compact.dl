@@ -30,7 +30,7 @@ TypeVarPointsTo(r, ty_node, item) :-
   ( op = "compactAdd#"
   ; op = "compactAddWithSharing#"
   ),
-  REACHABLE(r)
+  NEW_REACHABLE(r)
   Call(r, op, _),
   // item to bypass
   CallArgument(r, 1, item),
@@ -42,5 +42,6 @@ Error(r, cat("Unsupported (reachable) primop: ", op)) :-
   ( op = "compactAdd#"
   ; op = "compactAddWithSharing#"
   ),
-  REACHABLE(r)
-  Call(r, op, _).
+  Call(r, op, _),
+  NEW_REACHABLE(r)
+  .

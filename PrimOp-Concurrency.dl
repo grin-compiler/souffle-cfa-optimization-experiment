@@ -19,9 +19,10 @@
 USED("PrimOp-Concurrency-01")
 Called(r, "killThread#"),
 RaisedEx(ex) :-
-  REACHABLE(r)
   Call(r, "killThread#", _),
-  CallArgument(r, 1, ex).
+  CallArgument(r, 1, ex),
+  NEW_REACHABLE(r)
+  .
 
 /*
 // "fork#" :: %a -> {"State#" {RealWorld}} -> {"GHC.Prim.Unit#" {"ThreadId#"}}
@@ -29,7 +30,7 @@ RaisedEx(ex) :-
 USED("PrimOp-Concurrency-02")
 Called(r, "fork#"),
 ExecCall("fork#-thunk", r, v0, 0) :-
-  REACHABLE(r)
+  NEW_REACHABLE(r)
   Call(r, "fork#", _),
   CallArgument(r, 0, v0).
 
@@ -38,7 +39,7 @@ ExecCall("fork#-thunk", r, v0, 0) :-
 USED("PrimOp-Concurrency-03")
 Called(r, "forkOn#"),
 ExecCall("forkOn#-thunk", r, v0, 0) :-
-  REACHABLE(r)
+  NEW_REACHABLE(r)
   Call(r, "forkOn#", _),
   CallArgument(r, 1, v0).
 */
@@ -48,5 +49,6 @@ Error(r, cat("Unsupported (reachable) primop: ", op)) :-
   ( op = "fork#"
   ; op = "forkOn#"
   ),
-  REACHABLE(r)
-  Call(r, op, _).
+  Call(r, op, _),
+  NEW_REACHABLE(r)
+  .

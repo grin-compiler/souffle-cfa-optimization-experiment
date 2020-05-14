@@ -20,23 +20,25 @@
 USED("PrimOp-Parallelism-01")
 Called(r, "par#"),
 Spark(item) :-
-  REACHABLE(r)
   Call(r, "par#", _),
   // value
-  CallArgument(r, 0, item).
+  CallArgument(r, 0, item),
+  NEW_REACHABLE(r)
+  .
 
 // "spark#" :: %a -> {"State#" %s} -> {"GHC.Prim.Unit#" %a}
 USED("PrimOp-Parallelism-02")
 Called(r, op),
 TypeVarPointsTo(r, ty_node, item),
 Spark(item) :-
-  REACHABLE(r)
   op = "spark#",
   Call(r, op, _),
   // value
   CallArgument(r, 0, item),
   // extract result node
-  RetTup1Node0(op, ty_node).
+  RetTup1Node0(op, ty_node),
+  NEW_REACHABLE(r)
+  .
 
 // "seq#" :: %a -> {"State#" %s} -> {"GHC.Prim.Unit#" %a}
 // TODO: ExecCall should support to emit TypeVarPointsTo relations
@@ -61,12 +63,13 @@ USED("PrimOp-Parallelism-03")
 Called(r, op),
 TypeVarPointsTo(r, ty_node, item) :-
   op = "getSpark#",
-  REACHABLE(r)
   Call(r, op, _),
   // lookup items
   Spark(item),
   // lookup result node
-  RetTup(op, "GHC.Prim.(#,#)", 1, ty_node).
+  RetTup(op, "GHC.Prim.(#,#)", 1, ty_node),
+  NEW_REACHABLE(r)
+  .
 
 #endif
 
@@ -77,5 +80,6 @@ Error(r, cat("Unsupported (reachable) primop: ", op)) :-
   ; op = "seq#"
   ; op = "getSpark#"
   ),
-  REACHABLE(r)
-  Call(r, op, _).
+  Call(r, op, _),
+  NEW_REACHABLE(r)
+  .

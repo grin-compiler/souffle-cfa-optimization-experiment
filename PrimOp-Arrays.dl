@@ -81,12 +81,13 @@ Array(r, ty_node, item) :-
   ( op = "newArray#"
   ; op = "newSmallArray#"
   ),
-  REACHABLE(r)
   Call(r, op, _),
   // initial item
   CallArgument(r, 1, item),
   // extract result node
-  RetTup1Node0(op, ty_node).
+  RetTup1Node0(op, ty_node),
+  NEW_REACHABLE(r)
+  .
   // CHECKED
 
 // "readArray#"       :: {"MutableArray#" %s %a}      -> T_Int64 -> {"State#" %s} -> {"GHC.Prim.Unit#" %a}
@@ -102,14 +103,15 @@ TypeVarPointsTo(r, ty_node, item) :-
   ; op = "indexArray#"
   ; op = "indexSmallArray#"
   ),
-  REACHABLE(r)
   Call(r, op, _),
   // lookup array items
   CallArgument(r, 0, arr),
   ExternalOrigin(arr, ext_result, arr_node),
   Array(ext_result, arr_node, item),
   // lookup result node
-  RetTup1Node0(op, ty_node).
+  RetTup1Node0(op, ty_node),
+  NEW_REACHABLE(r)
+  .
   // CHECKED
 
 // "writeArray#"      :: {"MutableArray#" %s %a}      -> T_Int64 -> %a -> {"State#" %s} -> {"GHC.Prim.(##)"}
@@ -121,7 +123,6 @@ Array(ext_result, ty_node, item) :-
   ( op = "writeArray#"
   ; op = "writeSmallArray#"
   ),
-  REACHABLE(r)
   Call(r, op, _),
   // item to write
   CallArgument(r, 2, item),
@@ -129,7 +130,9 @@ Array(ext_result, ty_node, item) :-
   CallArgument(r, 0, arr),
   ExternalOrigin(arr, ext_result, ty_node),
   // validation
-  Array(ext_result, ty_node, _).
+  Array(ext_result, ty_node, _),
+  NEW_REACHABLE(r)
+  .
   // CHECKED
 
 // "unsafeFreezeArray#"       :: {"MutableArray#" %s %a}      -> {"State#" %s} -> {"GHC.Prim.Unit#" {"Array#" %a}}
@@ -145,12 +148,13 @@ TypeVarPointsTo(r, ty_node, arr) :- // bypass argument
   ; op = "unsafeThawArray#"
   ; op = "unsafeThawSmallArray#"
   ),
-  REACHABLE(r)
   Call(r, op, _),
   // lookup array items
   CallArgument(r, 0, arr),
   // lookup result node
-  RetTup1Node0(op, ty_node).
+  RetTup1Node0(op, ty_node),
+  NEW_REACHABLE(r)
+  .
   // CHECKED
 
 // "copyArray#"             :: {"Array#" %a}                -> T_Int64 -> {"MutableArray#" %s %a}      -> T_Int64 -> T_Int64 -> {"State#" %s} -> {"GHC.Prim.(##)"}
@@ -166,7 +170,6 @@ Array(dst_ext_result, dst_arr_node, src_item) :-
   ; op = "copyMutableArray#"
   ; op = "copySmallMutableArray#"
   ),
-  REACHABLE(r)
   Call(r, op, _),
   // lookup src array items
   CallArgument(r, 0, src_arr),
@@ -175,7 +178,9 @@ Array(dst_ext_result, dst_arr_node, src_item) :-
   // lookup dst array items
   CallArgument(r, 2, dst_arr),
   ExternalOrigin(dst_arr, dst_ext_result, dst_arr_node),
-  Array(dst_ext_result, dst_arr_node, _).
+  Array(dst_ext_result, dst_arr_node, _),
+  NEW_REACHABLE(r)
+  .
   // CHECKED
 
 // "cloneArray#"      :: {"Array#" %a}      -> T_Int64 -> T_Int64 -> {"Array#" %a}
@@ -187,14 +192,15 @@ Array(r, arr_node, src_item) :-
   ( op = "cloneArray#"
   ; op = "cloneSmallArray#"
   ),
-  REACHABLE(r)
   Call(r, op, _),
   // lookup src array items
   CallArgument(r, 0, src_arr),
   ExternalOrigin(src_arr, src_ext_result, src_arr_node),
   Array(src_ext_result, src_arr_node, src_item),
   // extract result node
-  ExternalReturnType(op, arr_node).
+  ExternalReturnType(op, arr_node),
+  NEW_REACHABLE(r)
+  .
   // CHECKED
 
 // "cloneMutableArray#"       :: {"MutableArray#" %s %a}      -> T_Int64 -> T_Int64 -> {"State#" %s} -> {"GHC.Prim.Unit#" {"MutableArray#" %s %a}}
@@ -214,14 +220,15 @@ Array(r, arr_node, src_item) :-
   ; op = "thawArray#"
   ; op = "thawSmallArray#"
   ),
-  REACHABLE(r)
   Call(r, op, _),
   // lookup src array items
   CallArgument(r, 0, src_arr),
   ExternalOrigin(src_arr, src_ext_result, src_arr_node),
   Array(src_ext_result, src_arr_node, src_item),
   // extract result node
-  RetTup1Node0(op, arr_node).
+  RetTup1Node0(op, arr_node),
+  NEW_REACHABLE(r)
+  .
   // CHECKED
 
 // "casArray#"      :: {"MutableArray#" %s %a}      -> T_Int64 -> %a -> %a -> {"State#" %s} -> {"GHC.Prim.(#,#)" T_Int64 %a}
@@ -235,7 +242,6 @@ Array(ext_result, arr_node, new_item) :-
   ( op = "casArray#"
   ; op = "casSmallArray#"
   ),
-  REACHABLE(r)
   Call(r, op, _),
   // new item
   CallArgument(r, 3, new_item),
@@ -245,5 +251,7 @@ Array(ext_result, arr_node, new_item) :-
   // array items
   Array(ext_result, arr_node, item),
   // extract result node
-  RetTup(op, "GHC.Prim.(#,#)", 1, ty_node).
+  RetTup(op, "GHC.Prim.(#,#)", 1, ty_node),
+  NEW_REACHABLE(r)
+  .
   // CHECKED

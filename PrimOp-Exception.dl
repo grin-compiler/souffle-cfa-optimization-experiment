@@ -29,12 +29,13 @@
 USED("PrimOp-Exception-01")
 Called(r, op),
 RaisedEx(ex) :-
-  REACHABLE(r)
   ( op = "raise#"
   ; op = "raiseIO#"
   ),
   Call(r, op, _),
-  CallArgument(r, 0, ex).
+  CallArgument(r, 0, ex),
+  NEW_REACHABLE(r)
+  .
   // CHECKED
 
 // "catch#" :: ({"State#" {RealWorld}} -> {"GHC.Prim.Unit#" %a})
@@ -46,12 +47,13 @@ USED("PrimOp-Exception-02")
 Called(r, op),
 CallPNode1("catch#-wrapped", r, v0, v2_state) :-
   op = "catch#",
-  REACHABLE(r)
   Call(r, op, _),
   // wrapped fun
   CallArgument(r, 0, v0),
   // state
-  CallArgument(r, 2, v2_state).
+  CallArgument(r, 2, v2_state),
+  NEW_REACHABLE(r)
+  .
   // CHECKED
 
 // NOTE: the handler has its own rule, because it fires only when there are exceptions, while the wrapped function is always called
@@ -60,14 +62,15 @@ USED("PrimOp-Exception-03")
 Called(r, op),
 CallPNode2("catch#-handler", r, v1, ex, v2_state) :-
   op = "catch#",
-  REACHABLE(r)
   Call(r, op, _),
   // handler
   CallArgument(r, 1, v1),
   // state
   CallArgument(r, 2, v2_state),
   // exceptions
-  RaisedEx(ex).
+  RaisedEx(ex),
+  NEW_REACHABLE(r)
+  .
   // CHECKED
 
 // "maskAsyncExceptions#"   :: ({"State#" {RealWorld}} -> {"GHC.Prim.Unit#" %a}) -> {"State#" {RealWorld}} -> {"GHC.Prim.Unit#" %a}
@@ -76,7 +79,6 @@ CallPNode2("catch#-handler", r, v1, ex, v2_state) :-
 USED("PrimOp-Exception-04")
 Called(r, op),
 CallPNode1("mask", r, v0, v1_state) :-
-  REACHABLE(r)
   ( op = "maskAsyncExceptions#"
   ; op = "maskUninterruptible#"
   ; op = "unmaskAsyncExceptions#"
@@ -84,5 +86,7 @@ CallPNode1("mask", r, v0, v1_state) :-
   Call(r, op, _),
   // pass argument to the wrapped function
   CallArgument(r, 0, v0),
-  CallArgument(r, 1, v1_state).
+  CallArgument(r, 1, v1_state),
+  NEW_REACHABLE(r)
+  .
   // CHECKED

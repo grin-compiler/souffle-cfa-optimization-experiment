@@ -3,6 +3,7 @@
 
 #ifdef REACHABLE_ONLY
 # define REACHABLE(x) Reachable(x),
+# define NEW_REACHABLE(x) Reachable(x)
 #else
 # define REACHABLE(x)
 #endif
