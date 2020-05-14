@@ -2,4 +2,5 @@
 
 set -x -e
 
-souffle -c main.dl -p lambda-cfa.prof
+souffle main.dl -o cfa
+time ./cfa

@@ -74,10 +74,10 @@ PointsTo(result, value) :-
 USED("CBy-5")
 MatchedAlt(case_result, alt_val),
 PointsTo(alt_val, scrut_val) :-
-  REACHABLE(case_result)
-  Case(case_result, scrut),
   Alt(case_result, alt_val, tag),
+  Case(case_result, scrut),
   NodeOrigin(scrut, scrut_val),
+  REACHABLE(case_result)
   Node(scrut_val, tag).
   // CHECKED
 
