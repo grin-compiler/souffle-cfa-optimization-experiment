@@ -2,4 +2,4 @@
 
 set -x -e
 
-rm *.csv *.cpp lambda-cfa
+rm *.csv *.cpp
