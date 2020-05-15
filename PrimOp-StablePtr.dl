@@ -19,7 +19,7 @@
 // "makeStablePtr#" :: %a -> {"State#" {RealWorld}} -> {"GHC.Prim.Unit#" {"StablePtr#" %a}}
 // new stable ptr
 USED("PrimOp-StablePtr-01")
-Called(r, op),
+//Called(r, op),
 StablePtr(item) :-
   op = "makeStablePtr#",
   Call(r, op, _),
@@ -31,7 +31,7 @@ StablePtr(item) :-
 
 // "deRefStablePtr#" :: {"StablePtr#" %a} -> {"State#" {RealWorld}} -> {"GHC.Prim.Unit#" %a}
 USED("PrimOp-StablePtr-02")
-Called(r, op),
+//Called(r, op),
 TypeVarPointsTo(r, ty_node, item) :-
   op = "deRefStablePtr#",
   Call(r, op, _),

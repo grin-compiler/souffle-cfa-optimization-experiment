@@ -25,7 +25,7 @@
 // probably we should disable this primop (future work)
 /*
 USED("PrimOp-Compact-01")
-Called(r, op),
+//Called(r, op),
 TypeVarPointsTo(r, ty_node, item) :-
   ( op = "compactAdd#"
   ; op = "compactAddWithSharing#"

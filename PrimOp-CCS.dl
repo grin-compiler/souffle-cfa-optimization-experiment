@@ -9,7 +9,7 @@
 
 // "clearCCS#" :: ({"State#" %s} -> {"GHC.Prim.Unit#" %a}) -> {"State#" %s} -> {"GHC.Prim.Unit#" %a}
 USED("PrimOp-CCS-01")
-Called(r, op),
+//Called(r, op),
 CallPNode1("clearCCS#-wrapped", r, v0, v1_state) :-
   op = "clearCCS#",
   Call(r, op, _),

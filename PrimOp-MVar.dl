@@ -26,7 +26,7 @@
 // "newMVar#" :: {"State#" %s} -> {"GHC.Prim.Unit#" {"MVar#" %s %a}}
 // new mvar
 USED("PrimOp-MVar-01")
-Called(r, op),
+//Called(r, op),
 MVarDef(r, ty_node) :-
   op = "newMVar#",
   Call(r, op, _),
@@ -39,7 +39,7 @@ MVarDef(r, ty_node) :-
 // "takeMVar#" :: {"MVar#" %s %a} -> {"State#" %s} -> {"GHC.Prim.Unit#" %a}
 // "readMVar#" :: {"MVar#" %s %a} -> {"State#" %s} -> {"GHC.Prim.Unit#" %a}
 USED("PrimOp-MVar-02")
-Called(r, op),
+//Called(r, op),
 TypeVarPointsTo(r, ty_node, item) :-
   ( op = "takeMVar#"
   ; op = "readMVar#"
@@ -59,7 +59,7 @@ TypeVarPointsTo(r, ty_node, item) :-
 // "tryTakeMVar#" :: {"MVar#" %s %a} -> {"State#" %s} -> {"GHC.Prim.(#,#)" T_Int64 %a}
 // "tryReadMVar#" :: {"MVar#" %s %a} -> {"State#" %s} -> {"GHC.Prim.(#,#)" T_Int64 %a}
 USED("PrimOp-MVar-03")
-Called(r, op),
+//Called(r, op),
 TypeVarPointsTo(r, ty_node, item) :-
   ( op = "tryTakeMVar#"
   ; op = "tryReadMVar#"
@@ -80,7 +80,7 @@ TypeVarPointsTo(r, ty_node, item) :-
 // "tryPutMVar#"  :: {"MVar#" %s %a} -> %a -> {"State#" %s} -> {"GHC.Prim.Unit#" T_Int64}
 // extend mvar
 USED("PrimOp-MVar-04")
-Called(r, op),
+//Called(r, op),
 MVar(ext_result, ty_node, item) :-
   ( op = "putMVar#"
   ; op = "tryPutMVar#"

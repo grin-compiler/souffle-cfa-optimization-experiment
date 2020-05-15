@@ -27,7 +27,7 @@
 // "raiseIO#" :: %a -> {"State#" {RealWorld}} -> {"GHC.Prim.Unit#" %b}
 // collect raised exceptions
 USED("PrimOp-Exception-01")
-Called(r, op),
+//Called(r, op),
 RaisedEx(ex) :-
   ( op = "raise#"
   ; op = "raiseIO#"
@@ -44,7 +44,7 @@ RaisedEx(ex) :-
 //          -> {"GHC.Prim.Unit#" %a}
 // handle the wrapped function
 USED("PrimOp-Exception-02")
-Called(r, op),
+//Called(r, op),
 CallPNode1("catch#-wrapped", r, v0, v2_state) :-
   op = "catch#",
   Call(r, op, _),
@@ -59,7 +59,7 @@ CallPNode1("catch#-wrapped", r, v0, v2_state) :-
 // NOTE: the handler has its own rule, because it fires only when there are exceptions, while the wrapped function is always called
 // handle ex-handler
 USED("PrimOp-Exception-03")
-Called(r, op),
+//Called(r, op),
 CallPNode2("catch#-handler", r, v1, ex, v2_state) :-
   op = "catch#",
   Call(r, op, _),
@@ -77,7 +77,7 @@ CallPNode2("catch#-handler", r, v1, ex, v2_state) :-
 // "maskUninterruptible#"   :: ({"State#" {RealWorld}} -> {"GHC.Prim.Unit#" %a}) -> {"State#" {RealWorld}} -> {"GHC.Prim.Unit#" %a}
 // "unmaskAsyncExceptions#" :: ({"State#" {RealWorld}} -> {"GHC.Prim.Unit#" %a}) -> {"State#" {RealWorld}} -> {"GHC.Prim.Unit#" %a}
 USED("PrimOp-Exception-04")
-Called(r, op),
+//Called(r, op),
 CallPNode1("mask", r, v0, v1_state) :-
   ( op = "maskAsyncExceptions#"
   ; op = "maskUninterruptible#"

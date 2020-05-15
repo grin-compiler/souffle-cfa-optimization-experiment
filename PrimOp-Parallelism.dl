@@ -18,7 +18,7 @@
 
 // "par#" :: %a -> T_Int64
 USED("PrimOp-Parallelism-01")
-Called(r, "par#"),
+//Called(r, "par#"),
 Spark(item) :-
   Call(r, "par#", _),
   // value
@@ -28,7 +28,7 @@ Spark(item) :-
 
 // "spark#" :: %a -> {"State#" %s} -> {"GHC.Prim.Unit#" %a}
 USED("PrimOp-Parallelism-02")
-Called(r, op),
+//Called(r, op),
 TypeVarPointsTo(r, ty_node, item),
 Spark(item) :-
   op = "spark#",
@@ -60,7 +60,7 @@ Error(r, "Unsupported (reachable) primop: seq# (TBD)") :-
 
 // "getSpark#" :: {"State#" %s} -> {"GHC.Prim.(#,#)" T_Int64 %a}
 USED("PrimOp-Parallelism-03")
-Called(r, op),
+//Called(r, op),
 TypeVarPointsTo(r, ty_node, item) :-
   op = "getSpark#",
   Call(r, op, _),

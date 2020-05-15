@@ -21,7 +21,7 @@
 // "atomically#" :: ({"State#" {RealWorld}} -> {"GHC.Prim.Unit#" %a}) -> {"State#" {RealWorld}} -> {"GHC.Prim.Unit#" %a}
 USED("PrimOp-STM-01")
 RaisedEx("Control.Exception.Base.nestedAtomically"), // hardwired closure for GHC RTS
-Called(r, op),
+//Called(r, op),
 CallPNode1("atomically#", r, v0, v1_state) :-
   op = "atomically#",
   Call(r, op, _),
@@ -37,7 +37,7 @@ CallPNode1("atomically#", r, v0, v1_state) :-
 //                -> {"State#" {RealWorld}}
 //                -> {"GHC.Prim.Unit#" %a}
 USED("PrimOp-STM-02")
-Called(r, op),
+//Called(r, op),
 CallPNode1("catchRetry#-wrapped", r, v0, v2_state),
 CallPNode1("catchRetry#-handler", r, v1, v2_state) :-
   op = "catchRetry#",
@@ -59,7 +59,7 @@ CallPNode1("catchRetry#-handler", r, v1, v2_state) :-
 //              -> {"GHC.Prim.Unit#" %a}
 // handle the wrapped function
 USED("PrimOp-STM-03")
-Called(r, op),
+//Called(r, op),
 CallPNode1("catchSTM#-wrapped", r, v0, v2_state) :-
   op = "catchSTM#",
   Call(r, op, _),
@@ -74,7 +74,7 @@ CallPNode1("catchSTM#-wrapped", r, v0, v2_state) :-
 // NOTE: the handler has its own rule, because it fires only when there are exceptions, while the wrapped function is always called
 // handle ex-handler
 USED("PrimOp-STM-04")
-Called(r, op),
+//Called(r, op),
 CallPNode2("catchSTM#-handler", r, v1, ex, v2_state) :-
   op = "catchSTM#",
   Call(r, op, _),
@@ -89,7 +89,7 @@ CallPNode2("catchSTM#-handler", r, v1, ex, v2_state) :-
 // "newTVar#" :: %a -> {"State#" %s} -> {"GHC.Prim.Unit#" {"TVar#" %s %a}}
 // new tvar
 USED("PrimOp-STM-05")
-Called(r, op),
+//Called(r, op),
 TVar(r, ty_node, item) :-
   op = "newTVar#",
   Call(r, op, _),
@@ -104,7 +104,7 @@ TVar(r, ty_node, item) :-
 // "readTVar#"   :: {"TVar#" %s %a} -> {"State#" %s} -> {"GHC.Prim.Unit#" %a}
 // "readTVarIO#" :: {"TVar#" %s %a} -> {"State#" %s} -> {"GHC.Prim.Unit#" %a}
 USED("PrimOp-STM-06")
-Called(r, op),
+//Called(r, op),
 TypeVarPointsTo(r, ty_node, item) :-
   ( op = "readTVar#"
   ; op = "readTVarIO#"
@@ -123,7 +123,7 @@ TypeVarPointsTo(r, ty_node, item) :-
 // "writeTVar#"  :: {"TVar#" %s %a} -> %a -> {"State#" %s} -> {"GHC.Prim.(##)"}
 // extend tvar
 USED("PrimOp-STM-07")
-Called(r, op),
+//Called(r, op),
 TVar(ext_result, ty_node, item) :-
   op = "writeTVar#",
   Call(r, op, _),

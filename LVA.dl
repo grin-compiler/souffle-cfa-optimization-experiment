@@ -81,6 +81,7 @@ ReachableExternal(callee) :-
   ReachableCode(caller),
   ExternalFunction(callee, _, _),
   CalledCode(caller, callee).
+  // TODO: ReachableCode + Call + ExternalFunction
 
 USED("LVA-11")
 DeadExternal(n) :-
