@@ -16,6 +16,10 @@
 .decl WeakFinalizer(ext_result:Variable, finalizer:Variable)
 .output WeakFinalizer
 
+// workaround for reachability calculation
+HasInst("mkWeak#", "mkWeak#-finalizer-ignored-result").
+
+
 // "mkWeak#" :: %o -> %b -> ({"State#" {RealWorld}} -> {"GHC.Prim.Unit#" %c}) -> {"State#" {RealWorld}} -> {"GHC.Prim.Unit#" {"Weak#" %b}}
 // new weak ptr
 USED("PrimOp-WeakPtr-01")

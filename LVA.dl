@@ -31,23 +31,6 @@ ReachableCode(callee) :-
   ReachableCode(caller),
   CalledCode(caller, callee).
 
-// alt ; tag sensitive
-USED("LVA-04")
-ReachableCode(alt) :-
-  ReachableCode(f),
-  HasInst(f, r),
-  // default case is always reachable
-  Alt(r, alt, "default:").
-
-USED("LVA-05")
-ReachableCode(alt) :-
-  ReachableCode(f),
-  HasInst(f, r),
-  Alt(r, alt, t),
-  // is the tag created somewhere?
-  TagValue(alt, t).
-
-
 .decl Reachable(inst:Variable)
 .output Reachable
 
@@ -56,6 +39,13 @@ Reachable(inst) :-
   ReachableCode(f),
   HasInst(f, inst).
 
+
+Reachable(p) :-
+  ReachableCode(f),
+  ( FunctionParameter(f, _, p)
+  ; ClosureParameter(f, _, p)
+  ; AltParameter(f, _, p)
+  ).
 
 .decl TagValue(v:Variable, t:Tag)
 .output TagValue

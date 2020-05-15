@@ -73,6 +73,8 @@ PointsTo(result, value) :-
 // scrutinee projection to alt value ; NodeOrigin
 USED("CBy-5")
 MatchedAlt(case_result, alt_val),
+Reachable(alt_val),
+ReachableCode(alt_val),
 PointsTo(alt_val, scrut_val) :-
   Case(case_result, scrut),
   Alt(case_result, alt_val, tag),
@@ -84,6 +86,8 @@ PointsTo(alt_val, scrut_val) :-
 // scrutinee projection to alt value ; ExternalOrigin
 USED("CBy-6")
 MatchedAlt(case_result, alt_val),
+Reachable(alt_val),
+ReachableCode(alt_val),
 ExternalOrigin(alt_val, ext_result, ty_var) :-
   Case(case_result, scrut),
   Alt(case_result, alt_val, tag),
@@ -119,6 +123,7 @@ ExternalOrigin(p, ext_result, ty_var) :-
 USED("CBy-8-tagToEnum#-workaround")
 TagValue(alt, tag),
 MatchedAlt(case_result, alt),
+Reachable(alt),
 ReachableCode(alt) :-
   Case(case_result, scrut),
   REACHABLE(case_result)
@@ -146,6 +151,8 @@ PointsTo(case_result, val) :-
 // default alternatives
 USED("CBy-10")
 MatchedAlt(case_result, alt_val),
+Reachable(alt_val),
+ReachableCode(alt_val),
 PointsTo(alt_val, scrut) :-
   Case(case_result, scrut),
   Alt(case_result, alt_val, "default:"),
