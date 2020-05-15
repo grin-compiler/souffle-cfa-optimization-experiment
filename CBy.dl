@@ -74,8 +74,8 @@ PointsTo(result, value) :-
 USED("CBy-5")
 MatchedAlt(case_result, alt_val),
 PointsTo(alt_val, scrut_val) :-
-  Alt(case_result, alt_val, tag),
   Case(case_result, scrut),
+  Alt(case_result, alt_val, tag),
   NodeOrigin(scrut, scrut_val),
   REACHABLE(case_result)
   Node(scrut_val, tag).
@@ -85,9 +85,9 @@ PointsTo(alt_val, scrut_val) :-
 USED("CBy-6")
 MatchedAlt(case_result, alt_val),
 ExternalOrigin(alt_val, ext_result, ty_var) :-
-  REACHABLE(case_result)
   Case(case_result, scrut),
   Alt(case_result, alt_val, tag),
+  REACHABLE(case_result)
   ExternalOrigin(scrut, ext_result, ty_var),
   TypeNode(ty_var, tag).
   // CHECKED
@@ -120,8 +120,8 @@ USED("CBy-8-tagToEnum#-workaround")
 TagValue(alt, tag),
 MatchedAlt(case_result, alt),
 ReachableCode(alt) :-
-  REACHABLE(case_result)
   Case(case_result, scrut),
+  REACHABLE(case_result)
   ExternalOrigin(scrut, ext_result, _),
   Call(ext_result, "tagToEnum#", _),
   Alt(case_result, alt, tag).
@@ -132,9 +132,9 @@ ReachableCode(alt) :-
 // alt result
 USED("CBy-9")
 PointsTo(case_result, val) :-
-  REACHABLE(case_result)
   Case(case_result, _),
   Alt(case_result, alt, _),
+  REACHABLE(case_result)
   ReachableCode(alt),
   ReturnValue(alt, val).
   // CHECKED
@@ -147,9 +147,10 @@ PointsTo(case_result, val) :-
 USED("CBy-10")
 MatchedAlt(case_result, alt_val),
 PointsTo(alt_val, scrut) :-
-  REACHABLE(case_result)
   Case(case_result, scrut),
-  Alt(case_result, alt_val, "default:").
+  Alt(case_result, alt_val, "default:"),
+  NEW_REACHABLE(case_result)
+  .
   // CHECKED
 
 /*
