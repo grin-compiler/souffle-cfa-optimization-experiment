@@ -13,8 +13,8 @@
 
 USED("LVA-01")
 CalledCode(caller, callee) :-
-  HasInst(caller, r), // NOTE: alts can be callers ; needs fix to include the function or closure?
-  Called(r, callee).
+  Called(r, callee),
+  HasInst(caller, r). // NOTE: alts can be callers ; needs fix to include the function or closure?
 
 // SECTION: reachability
 
@@ -53,8 +53,8 @@ ReachableCode(alt) :-
 
 USED("LVA-06")
 Reachable(inst) :-
-  HasInst(f, inst),
-  ReachableCode(f).
+  ReachableCode(f),
+  HasInst(f, inst).
 
 
 .decl TagValue(v:Variable, t:Tag)
@@ -62,13 +62,13 @@ Reachable(inst) :-
 
 USED("LVA-07")
 TagValue(v, tag) :-
-  NodeOrigin(v, node),
-  Node(node, tag).
+  Node(node, tag),
+  NodeOrigin(v, node).
 
 USED("LVA-08")
 TagValue(v, tag) :-
-  ExternalOrigin(v, _, ty_var),
-  TypeNode(ty_var, tag).
+  TypeNode(ty_var, tag),
+  ExternalOrigin(v, _, ty_var).
 
 // SECTION: dead code
 
