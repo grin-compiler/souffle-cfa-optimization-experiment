@@ -67,12 +67,12 @@ PNode(f, f, arity, arity) :-
   ( IsFunction(f)
   ; IsClosure(f)
   ),
+  CodeArity(f, arity),
   ( CallArgument(_, _, f)
   ; NodeArgument(_, _, f)
   ; Move(_, f)
   ; ReturnValue(_, f)
-  ),
-  CodeArity(f, arity).
+  ).
   // CHECKED
 
 /*
