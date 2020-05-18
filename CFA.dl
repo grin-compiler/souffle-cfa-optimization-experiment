@@ -268,8 +268,8 @@ ApplyChain(ns, r, fun, 0, missing, arg_count) :-
 
 USED("CFA-15")
 PointsTo(bound_param, pnode_arg) :- // pass PNode arguments for the initial function call
-  ExecCall(_, _, pnode, arg_count),
   PNode(pnode, fun, arity, missing),
+  ExecCall(_, _, pnode, arg_count),
   arg_count > missing,
   0 <= missing,
   // pnode parameters
