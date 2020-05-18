@@ -281,14 +281,14 @@ PointsTo(bound_param, pnode_arg) :- // pass PNode arguments for the initial func
 
 USED("CFA-16")
 PointsTo(param, arg) :- // pass call arguments to saturate the initial function call
-  ExecCall(ns, r, pnode, arg_count),
   PNode(pnode, fun, arity, missing),
+  ExecCall(ns, r, pnode, arg_count),
+  ExecCallArgument(ns, r, pnode, call_arg_i, arg),
   arg_count > missing,
   0 < missing,          // consume call arguments only if the PNode is not already saturated
   // call parameters
   call_arg_i >= 0,
   call_arg_i < missing,
-  ExecCallArgument(ns, r, pnode, call_arg_i, arg),
   CodeParameter(fun, call_arg_i + arity - missing, param).
   // CHECKED
 
