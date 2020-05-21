@@ -18,7 +18,7 @@ Error(v, "lazy app") :-
 
 // SECTION: check for unknown names
 
-.decl DefName(n:symbol)
+.decl DefName(n:symbol) brie
 
 DefName(n) :- // parameters
   ( AltParameter(_, _, n)
@@ -36,7 +36,7 @@ DefName(n) :- // top level functions
   ; ExternalFunction(n, _, _)
   ).
 
-.decl UseName(n:symbol)
+.decl UseName(n:symbol) brie
 
 UseName(n) :- // instructions
   ( Move(_,n)
@@ -56,7 +56,7 @@ Error(n, "unknown name") :- UseName(n), !DefName(n).
 
 // SECTION: debug
 
-.decl MissingValue(v:Variable)
+.decl MissingValue(v:Variable) brie
 .output MissingValue
 
 MissingValue(v) :-
@@ -71,7 +71,7 @@ MissingValue(v) :-
   !(NodeOrigin(v, _) ; ExternalOrigin(v, _, _); PNode(v, _, _, _)).
 
 // rule coverage
-.decl Used(rule_name:symbol)
+.decl Used(rule_name:symbol) brie
 .output Used
 
 // SECTION: unmatching but reachable case expressions

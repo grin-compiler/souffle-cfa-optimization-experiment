@@ -24,7 +24,7 @@
 
 // function
 // example: f param0 param1 = ...
-.decl IsFunction(f:CodeName)
+.decl IsFunction(f:CodeName) brie
 .decl FunctionParameter(f:Function, i:number, parameter:Variable)
 
 // case + alt
@@ -34,7 +34,7 @@
 
 // closure
 // example: result = \[captured0 captured1] param0 param1 = ...
-.decl IsClosure(result:CodeName)
+.decl IsClosure(result:CodeName) brie
 .decl ClosureVariable(result:Variable, i:number, captured:Variable)
 .decl ClosureParameter(result:Variable, i:number, parameter:Variable)
 
@@ -51,7 +51,7 @@
 // external types
 .decl TypeNode(ty_node:Variable, t:Tag)
 .decl TypeNodeArgument(ty_node:Variable, i:number, item:Variable)
-.decl IsTypeVariable(v:Variable) // tells if it refers to a corresponding TypeNode
+.decl IsTypeVariable(v:Variable) brie // tells if it refers to a corresponding TypeNode
 
 // higher order external types
 .decl FunctionType(ty_fun:Variable, arity:number)

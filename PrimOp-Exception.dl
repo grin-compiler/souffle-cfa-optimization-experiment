@@ -20,7 +20,7 @@
 */
 // SECTION: higher order primop evaluator
 
-.decl RaisedEx(f:Variable)
+.decl RaisedEx(f:Variable) brie
 .output RaisedEx
 
 // "raise#"   :: %b -> %o

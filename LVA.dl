@@ -1,5 +1,5 @@
 // reachibility
-.decl InitialReachable(n:CodeName)
+.decl InitialReachable(n:CodeName) brie
 .input InitialReachable
 
 // hardcoded edb
@@ -18,7 +18,7 @@ CalledCode(caller, callee) :-
 
 // SECTION: reachability
 
-.decl ReachableCode(n:CodeName)
+.decl ReachableCode(n:CodeName) brie
 .output ReachableCode
 
 USED("LVA-02")
@@ -31,7 +31,7 @@ ReachableCode(callee) :-
   ReachableCode(caller),
   CalledCode(caller, callee).
 
-.decl Reachable(inst:Variable)
+.decl Reachable(inst:Variable) brie
 .output Reachable
 
 USED("LVA-06")
@@ -62,7 +62,7 @@ TagValue(v, tag) :-
 
 // SECTION: dead code
 
-.decl DeadCode(n:CodeName)
+.decl DeadCode(n:CodeName) brie
 .output DeadCode
 
 USED("LVA-09")
@@ -70,10 +70,10 @@ DeadCode(n) :-
   ReturnValue(n, _),
   !ReachableCode(n).
 
-.decl DeadExternal(n:External)
+.decl DeadExternal(n:External) brie
 .output DeadExternal
 
-.decl ReachableExternal(n:External)
+.decl ReachableExternal(n:External) brie
 .output ReachableExternal
 
 USED("LVA-10")
@@ -90,7 +90,7 @@ DeadExternal(n) :-
 
 //////
 
-.decl HasCallOp(code:CodeName)
+.decl HasCallOp(code:CodeName) brie
 .output HasCallOp
 
 USED("LVA-12")
@@ -105,7 +105,7 @@ HasCallOp(code) :- // flatten alts
   Alt(r, alt, _),
   HasCallOp(alt).
 
-.decl LeafCode(code:CodeName)
+.decl LeafCode(code:CodeName) brie
 .output LeafCode
 
 USED("LVA-14")

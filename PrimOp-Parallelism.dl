@@ -13,7 +13,7 @@
     - "numSparks#" :: {"State#" %s} -> {"GHC.Prim.Unit#" T_Int64}
 */
 #if 0
-.decl Spark(item:Variable)
+.decl Spark(item:Variable) brie
 .output Spark
 
 // "par#" :: %a -> T_Int64

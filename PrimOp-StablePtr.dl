@@ -13,7 +13,7 @@
 
 */
 
-.decl StablePtr(item:Variable)
+.decl StablePtr(item:Variable) brie
 .output StablePtr
 
 // "makeStablePtr#" :: %a -> {"State#" {RealWorld}} -> {"GHC.Prim.Unit#" {"StablePtr#" %a}}
